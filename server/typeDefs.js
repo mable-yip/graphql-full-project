@@ -1,6 +1,6 @@
 import { gql } from 'apollo-server-express';
 
-export const typeDefs = gql`
+export const privateTypeDefs = gql`
     type User {
         _id: ID!
         email: String !
@@ -26,24 +26,30 @@ export const typeDefs = gql`
     }
     
     type Query {
-        hello: String 
-        getAllClasses: [Class]
-        getAllClassesByTeacher(email: String): [Class]
-        getUser(email: String): User
-        getAllTeachers: [User]
-        getAllStudents: [User]
+        Classes(teacherEmail: String, studentEmail: String): [Class]!
+        Users(userType: String): [User]!
+        User(email: String!): User
     }
 
     input UserInput {
-        email: String 
-        password: String
-        userType: String
+        email: String!
+        password: String!
+        userType: String!
         firstName: String
-        lastName: String 
+        lastName: String
     }
 
     type Mutation {
-        createUser(user: UserInput): User
+        createUser(user: UserInput!): User,
+        login(email: String, password: String): String
     }
-  
 `;
+
+export const publicTypeDefs = gql`
+    type Query {
+        login: String
+    }
+    type Mutation {
+        login(email: String, password: String): String
+    }
+`
