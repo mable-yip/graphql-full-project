@@ -1,13 +1,13 @@
 import { gql } from 'apollo-server-express';
 
-export const privateTypeDefs = gql`
+export const typeDefs = gql`
     type User {
         _id: ID!
         email: String !
-        password: String!
+        password: String
         userType: String!
-        firstName: String
-        lastName: String 
+        firstName: String!
+        lastName: String!
     }
 
     type Repeat {
@@ -41,15 +41,7 @@ export const privateTypeDefs = gql`
 
     type Mutation {
         createUser(user: UserInput!): User,
+        deleteUser(email: String!): String,
         login(email: String, password: String): String
     }
 `;
-
-export const publicTypeDefs = gql`
-    type Query {
-        login: String
-    }
-    type Mutation {
-        login(email: String, password: String): String
-    }
-`
